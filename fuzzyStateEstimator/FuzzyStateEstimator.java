@@ -156,11 +156,40 @@ public class FuzzyStateEstimator {
   
   public static void main(String[] args) throws Exception {
     String basePathName;
-  Name;
-  Name;
-  Name;
-  Name;
-  Name;
-  Name;
-  Name;
-  Na
+    if (args.length > 0) {
+      basePathName = args[0];
+    } else {
+      System.err.println("Error: you must provide the base name of the FCL as the first args");
+      return;
+    }
+    String mode = "all";
+    int nVars = args.length - 1;
+    double[] values = new double[nVars];
+    
+    if (args.length > 1) {
+      mode = "one";
+      for (int i = 0; i < nVars; i++)
+        values[i] = Double.parseDouble(args[i+1]);
+    }
+    
+    FuzzyStateEstimator stateEstimator = new FuzzyStateEstimator();
+    stateEstimator.basePathName = basePathName;
+    boolean status = false;
+    status = stateEstimator.build();
+    
+    if (status) {
+      if (mode.equals("all")) {
+        status = stateEstimator.evaluateForAll();
+     } else {
+       double[] output = new double[1];
+       status = stateEstimator.process(values, output);
+       System.out.println("Mood index: " + output[0]);
+      }
+    } else {
+      System.err.println("Error: failed to build the Fuzzy state estimator");
+    }
+    return;
+  }
+}
+// end of file
+//=============================================================================
