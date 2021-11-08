@@ -1,0 +1,8 @@
+##part 2 : fuzzy state estimator 
+##final part : last part of the project
+##Unity: c# script, the 3 most important senstiveAgentBehavior(you should change nothing inside), 
+KB velocityPosition Controller, AgentTransformLogger.
+(normaly there is no code to write in Unity).
+  
+
+
