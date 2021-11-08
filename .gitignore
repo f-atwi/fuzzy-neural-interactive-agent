@@ -1,0 +1,36 @@
+
+# specific files
+
+# directories with output files
+
+# standard patterns
+.DS_Store
+*.tgz
+*.zip
+*.*~
+*.*.bak
+
+# C, C++
+*.o
+a.out
+core
+
+# Latex files
+*.synctex.gz
+*.aux
+*.bbl
+*.blg
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*-eps-converted-to.pdf
+
+# java
+*.jar
+*.class
+
+# python
+__pycache__
