@@ -16,7 +16,7 @@ from os import path
 # Specific modules
 import numpy as np
 
-# Machine Learning library
+# Machine Learning library  
 from keras.models import load_model
 
 # ==============================================================================
