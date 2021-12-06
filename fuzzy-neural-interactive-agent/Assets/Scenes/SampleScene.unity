@@ -911,6 +911,9 @@ MonoBehaviour:
   objectCurrentTransform: {fileID: 0}
   directionOfMove: {x: 0, y: 0, z: 0}
   lastObservedTransform: {fileID: 0}
+  elapsedTime: 0
+  observationPeriod: 0.1
+  timeSinceLastObservation: 0
   valence: 0
   strength: 0
 --- !u!114 &1866480981
@@ -925,6 +928,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b251ee212dc1e94b93929075e10a26c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kinematicModel: {fileID: 0}
+  interactingObject: {fileID: 0}
+  obstacleDetector: {fileID: 0}
   isFearfull: 0
   fear: 0
 --- !u!114 &1866480982
@@ -941,7 +947,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   kinematicModel: {fileID: 0}
   linearVelocity: 0
+  linearVeloSensitivity: 0.01
   angularVelocity: 0
+  angularVeloSensitivity: 1
 --- !u!114 &1866480983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -961,11 +969,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866480977}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ef9f5eaa73eeea4f97e882adbdb6f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  elapsedTime: 0
+  samplingPeriod: 0.25
+  timeFromLastRecord: 0
 --- !u!4 &1876137240 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2958282627137491294, guid: 4e7c00727dc3c1f428f6545fb63139d1, type: 3}
@@ -1179,8 +1190,12 @@ MonoBehaviour:
   interactingObject: {fileID: 0}
   rewardOnHit: 0
   hitsCounter: {fileID: 0}
+  sumOfRewards: 0
+  nTouch: 0
   minDistanceToTarget: 1
   areaHalfSize: 10
+  moodChange: 0
+  body: {fileID: 0}
 --- !u!114 &8378150067944031471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1199,5 +1214,8 @@ MonoBehaviour:
   objectCurrentTransform: {fileID: 0}
   directionOfMove: {x: 0, y: 0, z: 0}
   lastObservedTransform: {fileID: 0}
+  elapsedTime: 0
+  observationPeriod: 0.1
+  timeSinceLastObservation: 0
   valence: 0
   strength: 0
