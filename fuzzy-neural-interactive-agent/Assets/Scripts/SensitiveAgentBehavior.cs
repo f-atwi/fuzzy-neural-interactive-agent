@@ -95,7 +95,7 @@ public class SensitiveAgentBehavior : MonoBehaviour
         Material material;     // and the material 
         public Cool(StateManager manager) : base("Cool", manager) {
             // need to retrieve the renderer and the material (never changed, thus can be done once in this constructor)
-            this.renderer = this.manager.controlledBehavior.gameObject.GetComponent<MeshRenderer>();
+            this.renderer = this.manager.controlledBehavior.body.GetComponent<MeshRenderer>();
             this.material = this.renderer.material;
         }
         public override void activate() {
@@ -106,7 +106,7 @@ public class SensitiveAgentBehavior : MonoBehaviour
             // It is set for the user to differenciate the two states
 
             // change the two parameters of the interaction
-            // a negative valence means taht the agent tends to avoid the interacting object
+            // a negative valence means that the agent tends to avoid the interacting object
             // In this example, a cool agent does not seek interactions
             this.manager.controlledBehavior.interactingObject.valence = -1.0f;
             this.manager.controlledBehavior.interactingObject.strength = .25f;
@@ -114,7 +114,7 @@ public class SensitiveAgentBehavior : MonoBehaviour
             // interaction with this agent when it is in this state provides a positive reward
             this.manager.controlledBehavior.rewardOnHit = 1;
 
-            // reaction ot the controlled agent when entering in this state
+            // reaction of the controlled agent when entering in this state
             this.manager.controlledBehavior.moveToOtherPlace();
         }
 
@@ -133,7 +133,7 @@ public class SensitiveAgentBehavior : MonoBehaviour
         MeshRenderer renderer;
         Material material;
         public Angry(StateManager manager) : base("Angry", manager) {
-            this.renderer = this.manager.controlledBehavior.gameObject.GetComponent<MeshRenderer>();
+            this.renderer = this.manager.controlledBehavior.body.GetComponent<MeshRenderer>();
             this.material = this.renderer.material;
         }
 
@@ -143,7 +143,7 @@ public class SensitiveAgentBehavior : MonoBehaviour
 
             // Change the two parameters of the interaction
             // a positive valence means that the agent is attracted by the interacting object
-            // In this example, a cool Angry tends to hits its interacting agent
+            // In this example, an Angry agent tends to hit its interacting agent
             this.manager.controlledBehavior.interactingObject.valence = 1.0f;
             this.manager.controlledBehavior.interactingObject.strength = 1.0f;
 
@@ -210,9 +210,13 @@ public class SensitiveAgentBehavior : MonoBehaviour
     const float largeAngle = 90.0f; //Mathf.PI / 2.0f;
     bool moodChange;
 
+    Transform body;
+
     // Start is called before the first frame update
     void Start()
     {
+        body = this.transform.GetChild(0).GetChild(0);
+
         this.interactingObject = GetComponent(typeof(InteractiveObject)) as InteractiveObject;
         DefineKinematicModel();
         this.moodChange = false;
@@ -222,6 +226,7 @@ public class SensitiveAgentBehavior : MonoBehaviour
         GameObject scoreDisplay = GameObject.Find("ScoreValue");
         hitsCounter = scoreDisplay.GetComponent(typeof(Text)) as Text;
         hitsCounter.text = sumOfRewards.ToString() + "/" + nTouch.ToString();
+
     }
 
     protected void DefineKinematicModel() {

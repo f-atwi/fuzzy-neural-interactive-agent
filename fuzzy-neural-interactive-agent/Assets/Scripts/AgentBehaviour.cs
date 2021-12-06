@@ -87,7 +87,7 @@ public class AgentBehaviour : MonoBehaviour {
             }
             else
             {
-                if (Mathf.Abs(angle) < largeAngle / 2.0f)
+                if (Mathf.Abs(angle) < largeAngle * Mathf.Deg2Rad / 2.0f)
                     linearVelocity *= Mathf.Abs(Mathf.Cos(angle));
                 else
                     linearVelocity *= 1f;
@@ -110,7 +110,7 @@ public class AgentBehaviour : MonoBehaviour {
             {
                 angularVelocity = 0.0f;
             }
-            else if (Mathf.Abs(angle) < largeAngle)
+            else if (Mathf.Abs(angle) < largeAngle * Mathf.Deg2Rad)
             {
                 //angularVelocity *= Mathf.Abs(angle) / largeAngle;
                 angularVelocity *= Mathf.Abs(Mathf.Sin(angle));
