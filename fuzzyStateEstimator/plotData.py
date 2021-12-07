@@ -28,15 +28,19 @@ def plotLawOfControl(dataFilePath, dirName, figsFileNamePrefix):
         azimuths.append(float(t))
     nAzimuths = len(azimuths)
 
-    linearVelocities = []
-    angularVelocities = []
-    while (sourceFile):
-        line = sourceFile.readline()
-        if (len(line) == 0):
-            break
-        tokens = re.split(";", line)
-        linearVelocities.append(float(tokens[0]))
-        angularVelocities.append(float(tokens[1]))
+    line = sourceFile.readline()
+    tokens = re.split(";", line)
+    velocities = []
+    for t in tokens:
+        velocities.append(float(t))
+    nVelocities = len(velocities)
+
+    # linearVelocities = []
+    # angularVelocities = []
+    rest=sourceFile.read()
+    results=re.split("\n",rest)
+    
+        
 
    # nRecords = len(linearVelocities)
 
