@@ -53,14 +53,13 @@ END_DEFUZZIFY
 // Inference rules
 RULEBLOCK No1
 	AND : MIN;
-	ACT : PROD;	// Use 'min' activation method (implication: Larsen,  Mandani ...)
+	ACT : PROD;	// Use 'min' activation method (implication: Larsen,  Mamdani ...)
 	ACCU : MAX;	// Use 'max' accumulation method ("and_also")
 
-	RULE R1 : IF distance IS near and linearVelocity IS veryFast and direction IS ahead THEN mood IS veryAngry;
-    RULE R2 : IF distance IS far and linearVelocity IS fast and direction IS ahead THEN mood IS angry;
-	RULE R3 : IF distance IS far and linearVelocity IS slow and direction IS ahead THEN mood IS angry;
-	Rule R4 : IF distance IS far and linearVelocity IS verySlow and direction IS ahead THEN mood IS neutral;
-	Rule R5 : IF distance IS far and linearVelocity IS verySlow and direction IS NOT ahead THEN mood is cool;
+	RULE R1 : IF distance IS near and (linearVelocity IS veryFast OR linearVelocity IS fast) and direction IS ahead THEN mood IS veryAngry;
+    RULE R2 : IF distance IS far and linearVelocity IS fast and (direction IS ahead OR direction IS onTheLeft OR direction IS onTheRight) THEN mood IS angry;
+	RULE R6 : IF linearVelocity IS verySlow THEN mood IS cool;
+	RULE R7 : IF linearVelocity IS slow THEN mood is neutral;
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK
