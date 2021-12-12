@@ -102,7 +102,7 @@ def evaluatePredictions(pathToLearningDataDir, dataFileNamesPrefix, modelFileNam
     # --- Load the data set
     pathToDataFile = os.path.join(pathToLearningDataDir, dataFileNamesPrefix + '_test.csv')
     data = np.loadtxt(pathToDataFile, dtype = float, delimiter = csv_sep)
-    X, Y = data[:,[0,1]], data[:,[2,3]]
+    X, Y = data[:,[0,1,3]], data[:,[4,5]]
 
     # --- Load the model (the trained neural network)
     modelFileName = modelFileNamesPrefix + '_model.h5'
@@ -157,9 +157,10 @@ def computeAndPlotLearnedFunction(model, pathToDataDir, dataSetName, modelName):
     nValues = 21
     Distances = np.linspace(distMin, distMax, num=nValues, endpoint=True, dtype=float)
     Azimuthes = np.linspace(azimMin, azimMax, num=nValues, endpoint=True, dtype=float)
+    States = np.linspace(0, 1, num=nValues, endpoint=True, dtype=float)
 
     # --- Predict the corresponding output values using the  trained model 
-    X = cartesian_product(*[Distances, Azimuthes])
+    X = cartesian_product(*[Distances, Azimuthes, States])
     YPlot = model.predict(X)
 
     # --- Strucutre the data for plotting

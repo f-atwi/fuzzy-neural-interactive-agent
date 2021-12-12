@@ -56,17 +56,17 @@ from keras.layers import Dense
 eol = '\n' # SEE: https://docs.python.org/3/library/os.html (see os.linesep)
 csv_sep = ';'
 
-xDim = 2 # input variables (distance to and azimuth of the agent's target)
+xDim = 3 # input variables (distance to and azimuth of the agent's target)
 yDim = 2 # output variables (linear and angular velocities of the agent)
 
 # Hyper parameters
 # TODO: set the two following values (try different settings)
-hiddenLayers = [1]
+hiddenLayers = [10,20,10]
 hiddenActivationFunctionName = 'tanh'
 outputActivationFunctionName = 'linear'
 optimizerName = 'adam'
 lossFunctionName = 'mse'
-nMaxEpochs = 2
+nMaxEpochs = 15
 
 # ==============================================================================
 # Locally defined functions
@@ -77,12 +77,12 @@ def learnModel(pathToLearningDataDir, fileNamePrefix):
     pathToDataFile = os.path.join(pathToLearningDataDir, fileNamePrefix + '_training.csv')
     print("Load training data set from", pathToDataFile)
     data = np.loadtxt(pathToDataFile, dtype = float, delimiter = csv_sep)
-    X_train, Y_train = data[:,[0,1]], data[:,[2,3]]
+    X_train, Y_train = data[:,[0,1,3]], data[:,[4,5]]
 
     pathToDataFile = os.path.join(pathToLearningDataDir, fileNamePrefix + '_validation.csv')
     print("Load validation data set from", pathToDataFile)
     data = np.loadtxt(pathToDataFile, dtype = float, delimiter = csv_sep)
-    X_valid, Y_valid = data[:,[0,1]], data[:,[2,3]]
+    X_valid, Y_valid = data[:,[0,1,3]], data[:,[4,5]]
 
     # --- Build the model
     neuralNetwork = Sequential() # layered neural architecture
@@ -111,6 +111,7 @@ def learnModel(pathToLearningDataDir, fileNamePrefix):
     neuralNetwork.add(layer)
   
     # --- Set the learning algorithm
+    neuralNetwork.summary()
     neuralNetwork.compile(optimizer = optimizerName, loss = lossFunctionName)
 
     # --- Fit the model (learning, training per se)

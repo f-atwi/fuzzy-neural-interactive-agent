@@ -57,7 +57,7 @@ verbose = 1
 # --- Ranges for the behavioral variables (sensors and actuators)
 # Must be consistent with respect to the agent's controller.
 # TODO: adapt to the problem
-xDim = 2
+xDim = 4
 yDim = 2
 
 # Lower and Upper limites for herein calculated variables
@@ -76,7 +76,7 @@ vAngMin, vAngMax = -1., 1. # more subtle because velocities are reralculated her
 def prepareDataSet(pathToRawDataFile, pathToLearningDataFile):
 
     print("Load the data set (raw formatting) from " + pathToRawDataFile)
-    columns = tuple(i for i in range(0, 12)) # WARNING: the two last columns may be empty, and thus should not be used 
+    columns = tuple(i for i in range(0, 18)) # WARNING: the two last columns may be empty, and thus should not be used 
     # WARNING: PORT: depending on locale setting, Unity may generate log files with , as decimal separator...
     rawData = np.loadtxt(pathToRawDataFile, dtype=float, encoding='ascii', delimiter = csv_sep, skiprows = 1, usecols=columns, 
         converters={i: lambda s: float(s.replace(',','.')) for i in columns})
@@ -84,6 +84,7 @@ def prepareDataSet(pathToRawDataFile, pathToLearningDataFile):
     aPos = rawData[:,[1,2,3]]
     aOri = rawData[:,[5]]
     tPos = rawData[:,[7,8,9]]
+    states = rawData[:,[17]]
     # TODO tOri ...
     
     nRecords = aPos.shape[0]
@@ -102,6 +103,7 @@ def prepareDataSet(pathToRawDataFile, pathToLearningDataFile):
 
     aLinearVelocity = 0.0
     aAngularVelocity = 0.0
+    tLinearVelocity = 0.0
     for i in range(nRecords):
         j = i-1
         # Agent's orientation (direction of move in the horizontal plane)
@@ -122,11 +124,14 @@ def prepareDataSet(pathToRawDataFile, pathToLearningDataFile):
             deltaT = time[i][0] - time[i-1][0]
             aLinearVelocity = pointToPointDistance(aPos[i], aPos[i-1]) / deltaT
   
+            tLinearVelocity = pointToPointDistance(tPos[i], tPos[i-1]) / deltaT
+
             aPsi1, aPsi2 = aOri[i-1][0], aOri[i][0]
             dPsi = clampToPiMinusPi(aPsi2 - aPsi1)
             aAngularVelocity = dPsi / deltaT
+            state = states[i]
             #print("Vang: " + str(aAngularVelocity) + ": " + str(aPsi2) + " - " + str(aPsi2) + " = " + str(dPsi) + " / " + str(deltaT))
-            X[j,0], X[j,1] = d, theta
+            X[j,0], X[j,1], X[j,2], X[j,3] = d, theta, tLinearVelocity, state
             Y[j,0], Y[j,1] = aLinearVelocity, aAngularVelocity
     
     if verbose > 0:

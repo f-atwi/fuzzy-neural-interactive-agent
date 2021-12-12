@@ -28,6 +28,8 @@ import numpy
 # ==============================================================================
 # Locally defined fucntions (used in other modules)
 
+DEFAULT_STATE = 1
+
 def pointToPointDistance(p1, p2):
     return numpy.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
 
@@ -57,8 +59,8 @@ class AgentModelAdapter:
 
     def prepareInputData(self, data):
         self.initData(data)
-        feature = [0,0]
-        feature[0], feature[1] = self.targetRelativeLocation()
+        feature = [0,0,0]
+        feature[0], feature[1], feature[2] = self.targetRelativeLocation()
         return numpy.array([feature])
 
     def agentDirectionOfMove(self):
@@ -73,7 +75,7 @@ class AgentModelAdapter:
             theta = clampToPiMinusPi(aPsi - azim)
         else:
             theta = 0.0
-        return dist, theta
+        return dist, theta, DEFAULT_STATE
 
 # ------------------------------------------------------------------------------
 def unitaryTests():

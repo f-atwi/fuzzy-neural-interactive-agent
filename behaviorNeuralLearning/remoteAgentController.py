@@ -25,7 +25,7 @@ def parseCommandLine():
         if opt == "-v":
             verbose = True
         elif opt in ("-h", "--help"):
-            usage()
+            getopt.usage()
             sys.exit()
 
     return opts, args
