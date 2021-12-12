@@ -30,6 +30,8 @@ public class SensitiveAgentBehavior : MonoBehaviour
 
         // action performed while the stat is active (each frame)
         public abstract void update();
+
+        public abstract int value();
     }
 
     // A specific state: the intial one. 
@@ -42,6 +44,11 @@ public class SensitiveAgentBehavior : MonoBehaviour
             // No action in initial state
             // empty in purpose
             return;
+        }
+
+        public override int value()
+        {
+            return 1;
         }
     }
 
@@ -127,6 +134,11 @@ public class SensitiveAgentBehavior : MonoBehaviour
             this.manager.controlledBehavior.interactingObject.strength = s;
             return;
         }
+
+        public override int value()
+        {
+            return 1;
+        }
     }
 
     public class Angry: State {
@@ -162,6 +174,11 @@ public class SensitiveAgentBehavior : MonoBehaviour
             if (s < .01)
                 this.manager.controlledBehavior.moodChange = true;
             return;
+        }
+
+        public override int value()
+        {
+            return 0;
         }
     }
 
