@@ -102,6 +102,7 @@ public class AgentsTransformLogger: MonoBehaviour {
                 line = line + ";;";
             }
         }
+        line = line + ";" + Component.FindObjectOfType<SensitiveAgentBehavior>().currentState;
         this.fileWritter.WriteLine(line);
     }
 

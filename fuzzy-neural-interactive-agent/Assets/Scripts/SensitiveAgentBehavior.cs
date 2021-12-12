@@ -194,7 +194,7 @@ public class SensitiveAgentBehavior : MonoBehaviour
         }
     }
 
-    State currentState;
+    public State currentState;
     StateManager behaviorSelector;
     public KinematicModel kinematicModel;
     public InteractiveObject interactingObject;
