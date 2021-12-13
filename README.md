@@ -14,9 +14,7 @@ Learning of a reactive behavior using a neural network and a fuzzy logic control
 ### Compiling the fuzzyStateEstimator\FuzzyStateEstimator.java code
 
 To be able to create the fuzzy model, the Java file FuzzyStateEstimator.java needs to be compiled using the command:
-```javac -classpath "jFuzzyLogic.jar" fuzzyStateEstimator\FuzzyStateEstimator.java
-
-```
+```javac -classpath "jFuzzyLogic.jar" fuzzyStateEstimator\FuzzyStateEstimator.java```
 
 ### Modifying the fuzzy logic controller
 
