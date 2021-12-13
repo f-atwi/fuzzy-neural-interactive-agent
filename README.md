@@ -35,7 +35,9 @@ To evaluate the created model using its lookup table, run the following code
 
 The plotted 4D scatter diagram shows all the input variables as the 3 standard axes and the output (mood) is represented as the color of each point.
 The color yellow represents the state cool while the color purple represents the state angry.
-The graph is also saved as a png with the same name and path as the fcl file.
+The graph is also saved as a png with the same path as the fcl file.
+
+![Fuzzy Model](data/coolAngryModelStates.png)
 
 ## Python neural network
 
@@ -60,13 +62,13 @@ The dateset can then be prepard for learning using the command:
  The hidden layer activation functions are tanh while the output layer is linear.
  The model is trained for 300 epochs.
 
-
  To train the model, excute the command:
 ``` python behaviorNeuralLearning/learnBehaviour.py learningData dataset ```
-
+~[Trainging](learningData\Strategy2\mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_loss.png)
 To evaluate the trained model, use the command:
 ``` behaviorNeuralLearning/evaluateModel.py learningData dataset <generated model name> ```
-
+![linear velocity](learningData\Strategy2\strategy2_grid_mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_linearVelo.png)
+![angular velocity](learningData\Strategy2\strategy2_grid_mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_angularVelo.png)
 ### Deploying the finished model
 
 In the Unity project, make sure that the agent has the ``` AgentRemoteController.cs ``` component active and the ``` KBVelocityController.cs ``` deactivated.
@@ -79,3 +81,4 @@ The code will automatically use the lookup table ``` data/coolAngryModel.csv ```
 When the python code is waiting for data, run the Unity simulation.
 
 The agent should be go toward the target if it is calm, and run away if it is angry.
+![Unity Scene](Scene_screenshot.png)
