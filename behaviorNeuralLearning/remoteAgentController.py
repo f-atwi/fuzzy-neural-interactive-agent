@@ -41,14 +41,14 @@ def launchServer():
 def parseData(rawData):
     dataFormat = '<ffffffffffff' # little-indian - 4x3 floats
     values = struct.unpack(dataFormat, rawData)
-    print(values)
+    # print(values)
     data = np.array(values)
     return data
 
 def processData(dataAdapter, BehaviorController, data):
     inputData = dataAdapter.prepareInputData(data)
     result = BehaviorController.process(inputData)
-    print(str(inputData) + ' --> ' + str(result))
+    # print(str(inputData) + ' --> ' + str(result))
     return result
 
 def formatAnswer(result):

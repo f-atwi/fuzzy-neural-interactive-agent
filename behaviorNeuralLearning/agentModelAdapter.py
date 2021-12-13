@@ -21,7 +21,9 @@
 
 # Specific modules
 import numpy
-
+import re
+from pathlib import Path
+from time import time
 # Home made stuffs
 # None
 
@@ -42,7 +44,7 @@ def clampToPiMinusPi(angle):
 
 # ==============================================================================
 class AgentModelAdapter:
-    def __init__(self):
+    def __init__(self, dataFilePath = str(Path("data/coolAngryModel.csv")) ):
         self.agentPosition = numpy.zeros(3)
         self.agentOrientation = numpy.zeros(3)
         self.targetPosition = numpy.zeros(3)
@@ -50,21 +52,103 @@ class AgentModelAdapter:
         self.agentLinearVelocity = 0.0
         self.agentAngularVelocity = 0.0
 
+        print("Load data from " + dataFilePath)
+        sourceFile = open(dataFilePath, "r")
+
+        line = sourceFile.readline()
+        tokens = re.split(";", line)
+        distances = []
+        for t in tokens:
+            distances.append(float(t))
+        self.dist_step = distances[1]-distances[0
+        ]
+        line = sourceFile.readline()
+        tokens = re.split(";", line)
+        azimuths = []
+        for t in tokens:
+            azimuths.append(float(t))
+        self.az_step = azimuths[1] - azimuths[0]
+        
+
+        line = sourceFile.readline()
+        tokens = re.split(";", line)
+        velocities = []
+        for t in tokens:
+            velocities.append(float(t))
+        self.vel_step = velocities[1] - velocities[0]
+
+        rest = sourceFile.read()
+        results = re.split("\n", rest)
+        results.pop(-1)
+
+        # results = [float(x)*100 for x in results]
+        self.records = numpy.empty((0, 4))
+        index = 0
+        for distance in distances:
+            for azimuth in azimuths:
+                for velocity in velocities:
+                    if float(results[index])<9:
+                        self.records = numpy.append(self.records, [[float(distance), float(azimuth), float(velocity), float(results[index])]], axis=0)
+                    index +=1
+
     def initData(self, data):
         # not efficient, but easier to handle
-        self.agentPosition = numpy.array(data[0:3])
-        self.agentOrientation = numpy.array(data[3:6])
-        self.targetPosition = numpy.array(data[6:9])
-        self.targetOrientation = numpy.array(data[9:12])  
+        self.agentPosition = numpy.array(data[0:3], float)
+        self.agentOrientation = numpy.array(data[3:6], float)
+        self.targetPosition = numpy.array(data[6:9], float)
+        self.targetOrientation = numpy.array(data[9:12], float)  
 
     def prepareInputData(self, data):
         self.initData(data)
         feature = [0,0,0]
-        feature[0], feature[1], feature[2] = self.targetRelativeLocation()
+        feature[0], feature[1] = self.targetRelativeLocation()
+        feature[2] = self.mood(feature[0])
         return numpy.array([feature])
+
+    def targetLinearVelocity(self):
+        current_time = time()
+        try:
+            deltaT = current_time - self.prev_time
+            tLinearVelocity = pointToPointDistance(self.targetPosition, self.prev_t_position) 
+            tLinearVelocity /= deltaT
+
+            self.prev_time = current_time
+            self.prev_t_position = self.targetPosition
+        except:
+            self.prev_time=current_time
+            self.prev_t_position=self.targetPosition
+            return 0
+        return tLinearVelocity
 
     def agentDirectionOfMove(self):
         return clampToPiMinusPi(numpy.pi / 2 - self.agentOrientation[1])
+
+    def targetDirectionOfMove(self):
+        return clampToPiMinusPi(numpy.pi / 2 - self.targetOrientation[1])
+
+    def mood(self, dist):
+        # return DEFAULT_STATE
+        vel = self.targetLinearVelocity()
+        # print(dist, theta, vel)
+        # print(self.dist_step, self.az_step, self.vel_step)
+
+        
+        aPosT = self.agentPosition - self.targetPosition
+        tzim = numpy.arctan2(aPosT[2], aPosT[0])
+        tPsi = self.targetDirectionOfMove()
+        theta = clampToPiMinusPi(tPsi - tzim)
+     
+
+        for record in self.records:
+            if (abs(dist - record[0])<self.dist_step/2  or dist>20 or dist<0)  and (abs(theta - record[1])<self.az_step/2) and (abs(vel - record[2])<self.vel_step/2 or vel > 2 ):
+                # print(record)
+                if record[3] > 0.5:
+                    return 1.0
+                else:
+                    return 0.0
+        
+        print(dist, theta, vel)
+        return DEFAULT_STATE 
 
     def targetRelativeLocation(self):
         dist = pointToPointDistance(self.targetPosition, self.agentPosition)
@@ -75,7 +159,7 @@ class AgentModelAdapter:
             theta = clampToPiMinusPi(aPsi - azim)
         else:
             theta = 0.0
-        return dist, theta, DEFAULT_STATE
+        return dist, theta
 
 # ------------------------------------------------------------------------------
 def unitaryTests():
