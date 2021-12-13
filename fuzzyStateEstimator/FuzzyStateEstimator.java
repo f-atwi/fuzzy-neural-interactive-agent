@@ -99,7 +99,7 @@ public class FuzzyStateEstimator {
       System.out.println("Writing results into " + resultFileName);
       // ----------------------------------------------------------------------
       double distMin = 0.0, distMax = 20.0, dDist = .5;
-      double dirMin = 0.0, dirMax = 3.14, dDir = 3.14/21.0;
+      double dirMin = -3.14, dirMax = 3.14, dDir = 3.14/21.0;
       double vMin = 0.0, vMax = 2.0, dV = .1;
       double distance = distMin, direction = dirMin, velocity = vMin;
 
