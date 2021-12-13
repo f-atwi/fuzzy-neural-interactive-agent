@@ -65,13 +65,13 @@ The dateset can then be prepard for learning using the command:
  To train the model, excute the command:
 ``` python behaviorNeuralLearning/learnBehaviour.py learningData dataset ```
 
-![Training](learningData\Strategy2\mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_loss.png)
+![Training](learningData/Strategy2/mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_loss.png)
 To evaluate the trained model, use the command:
 ``` behaviorNeuralLearning/evaluateModel.py learningData dataset <generated model name> ```
 
-![linear velocity](learningData\Strategy2\strategy2_grid_mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_linearVelo.png)
+![linear velocity](learningData/Strategy2/strategy2_grid_mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_linearVelo.png)
 
-![angular velocity](learningData\Strategy2\strategy2_grid_mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_angularVelo.png)
+![angular velocity](learningData/Strategy2/strategy2_grid_mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_angularVelo.png)
 
 ### Deploying the finished model
 
