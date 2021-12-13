@@ -21,8 +21,8 @@ END_VAR
 
 // Fuzzify input variables 'distance' and 'direction':
 FUZZIFY distance
-	TERM near := (0, 1) (2, 0);
-	TERM far := (0, 0) (2, 1);
+	TERM near := (0, 1) (7, 0);
+	TERM far := (0, 0) (7, 1)(20, 1);
 END_FUZZIFY
 
 FUZZIFY direction
@@ -34,8 +34,9 @@ FUZZIFY direction
 END_FUZZIFY
 
 FUZZIFY linearVelocity
-    TERM verySlow := (-0.1, 1) (0.5, 0);
-    TERM slow := (0, 0) (0.5, 1) (1, 0);
+	TERM stopped := (-0.1 ,1)(0, 1)(0.2, 0)
+    TERM verySlow := (0, 0)(0.2,1) (0.5, 0);
+    TERM slow := (0.2, 0) (0.5, 1) (1, 0);
     TERM fast := (0.5, 0) (1, 1) (1.5, 0);
     TERM veryFast := (1, 0) (1.5, 1) (2.1, 1);
 END_FUZZIFY
@@ -72,12 +73,10 @@ RULEBLOCK No1
 	RULE R6 : IF linearVelocity IS verySlow THEN mood IS cool;
 	RULE R7 : IF linearVelocity IS slow THEN mood is neutral;
 	*/
-	
+
 	//iteration 3
-	RULE R1 : IF (linearVelocity IS fast OR linearVelocity IS veryFast) AND direction IS ahead THEN mood IS veryAngry;
-    RULE R2 : IF ((linearVelocity IS fast OR linearVelocity IS veryFast) AND (direction IS backLeft OR direction IS backRight)) OR linearVelocity IS verySlow THEN mood is cool;
-	RULE R3 : IF linearVelocity IS fast AND (direction IS onTheLeft OR direction IS onTheRight) THEN mood is angry;
-	RULE R4 : IF linearVelocity IS slow OR linearVelocity IS fast OR linearVelocity IS veryFast OR linearVelocity IS verySlow THEN mood IS neutral;
+	RULE R1 : IF ((linearVelocity IS NOT stopped) OR (linearVelocity IS verySlow AND direction IS ahead ))AND distance IS near THEN mood IS veryAngry;
+    RULE R2 : IF ((linearVelocity IS verySlow OR linearVelocity IS stopped) AND direction IS NOT ahead) OR distance IS far OR linearVelocity IS stopped THEN mood is cool;
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK
