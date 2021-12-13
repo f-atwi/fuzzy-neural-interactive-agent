@@ -49,7 +49,6 @@ The generated log is saved ```fuzzy-neural-interactive-agent/Assets/Logs
 
 The dateset can then be prepard for learning using the command:
  ``` python behaviorNeuralLearning/prepareDataset.py <Path to log file>/<log file>.csv learningData/dataset.csv ```
-
  where dataset.csv is the name of the dataset we want to prepare from the log file.
 
  The dataset can be split into 3 (training, testing, and validation) using the command:
@@ -66,10 +65,13 @@ The dateset can then be prepard for learning using the command:
 ``` python behaviorNeuralLearning/learnBehaviour.py learningData dataset ```
 
 ![Training](learningData/Strategy2/mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_loss.png)
+
 To evaluate the trained model, use the command:
 ``` behaviorNeuralLearning/evaluateModel.py learningData dataset <generated model name> ```
 
+
 ![linear velocity](learningData/Strategy2/strategy2_grid_mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_linearVelo.png)
+
 
 ![angular velocity](learningData/Strategy2/strategy2_grid_mlp_tanh_linear_10x20x10_2021-12-12-16-57-37_angularVelo.png)
 
@@ -85,4 +87,5 @@ The code will automatically use the lookup table ``` data/coolAngryModel.csv ```
 When the python code is waiting for data, run the Unity simulation.
 
 The agent should be go toward the target if it is calm, and run away if it is angry.
+
 ![Unity Scene](Scene_screenshot.png)
