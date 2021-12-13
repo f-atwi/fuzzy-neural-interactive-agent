@@ -1,6 +1,32 @@
 # FuzzyNeuralInteractiveAgent
 
-Learning of a reactive behavior using a neural network and a fuzzy logic controller. 
+In a 3D Unity environment, an agent and a target are present. The target has one of two states (angry or cool). If the agent touches the angry target, it loses a point, and if it touches a cool target, it gains one. An angry target will attempt to chase the agent if the agent comes too close, and will cool down if left alone. A cool target attampts to leave the agent alone.
+
+The objective is to build a neural network/fuzzy logic hybrid to be deployed on the agent.
+
+A fuzzy logic controller takes as an input:
+* The distance betweent the target and the agent
+* The angle the agent makes with the target's reference
+* The target's estimated linear velocity
+
+The fuzzy logic then outputs the estimated state of the target [0, 1] where 0 means the target is 100% likely to be angry and 1 means the target is 100% likey to be cool. 
+
+A neural network is created and trained. It uses as an input:
+* The distance betweent the target and the agent
+* The angle the target makes with the agent's reference
+* The estimated state of the target
+
+The output of the neural network is the agent's linear and angular velocity. These two values are sent to the Unity environment to control the agent.
+
+The neural network is trained using data collected by manually controlling the agent. Here, two strategies were used. 
+
+#### Strategy 1
+
+Ignores the target's state and attempt to go around the target (keeping a safe distance) and only attempting to touch it from behing. Hence, this gives the agent enough time to cool down if it was angry. This model is target state agnostic and hence does not really require an estimation of the target's state from the fuzzy logic controller.
+
+#### Strategy 2
+
+Attempt to go directly to the target if the estimated state is cool, or turn to the opposite direction and go away if the target is estimated to be angry.
 
 ## Requirements
 
