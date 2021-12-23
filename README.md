@@ -10,7 +10,6 @@ A fuzzy logic controller takes as an input:
 * The target's estimated linear velocity
 
 The fuzzy logic then outputs the estimated state of the target [0, 1] where 0 means the target is 100% likely to be angry and 1 means the target is 100% likey to be cool. 
-jksafbkjsafls
 
 A neural network is created and trained. It uses as an input:
 * The distance betweent the target and the agent
